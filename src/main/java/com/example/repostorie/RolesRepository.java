@@ -8,5 +8,5 @@ import com.example.entities.RoleEntity;
 @Repository
 public interface RolesRepository extends JpaRepository<RoleEntity, Integer>
 {
-
+	public RoleEntity getByRoleName(String rolename);
 }
