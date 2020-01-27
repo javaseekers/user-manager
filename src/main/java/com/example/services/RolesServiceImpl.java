@@ -25,4 +25,15 @@ public class RolesServiceImpl implements RolesService {
 		return rolesRepo.getByRoleName(rolename);
 	}
 
+	@Override
+	public void addRole(String roleName) {
+		
+		RoleEntity roleEntity= new RoleEntity();
+		
+		roleEntity.setRoleName(roleName);
+		
+		rolesRepo.save(roleEntity);
+		
+	}
+
 }

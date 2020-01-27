@@ -9,5 +9,7 @@ public interface RolesService
 	public List<RoleEntity> getRoles();
 	
 	public RoleEntity getRoleByName(String roleName);
+
+	public void addRole(String roleName);
 	
 }

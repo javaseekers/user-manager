@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,26 +25,25 @@ public class RolesController {
 	{
 		List<RoleEntity> 	localListOfRoles = null;
 		
-		ResponseEntity<List<RoleEntity>> localResponseEntiy = null;
-		
 		localListOfRoles = rolesSerice.getRoles();
 		
-		localResponseEntiy = new ResponseEntity<List<RoleEntity>>(localListOfRoles, HttpStatus.FOUND);
-		
-		return localResponseEntiy;
+		return ResponseEntity.ok().body(localListOfRoles);
 	}
 
-	@GetMapping("/roleByName/{roleName}")
+	@GetMapping("/roles/{roleName}")
 	public ResponseEntity<RoleEntity> getRole(@PathVariable("roleName") String roleName)
 	{
 		RoleEntity 	localRoleEntity = null;
-		
-		ResponseEntity<RoleEntity> localResponseEntiy = null;
-		
+				
 		localRoleEntity = rolesSerice.getRoleByName(roleName);
 		
-		localResponseEntiy = new ResponseEntity<RoleEntity>(localRoleEntity, HttpStatus.FOUND);
-		
-		return localResponseEntiy;
+		return ResponseEntity.ok().body(localRoleEntity);
+	}
+	@PostMapping("/roles/{roleName}")
+	public void addRole(@PathVariable("roleName") String roleName)
+	{
+		rolesSerice.addRole(roleName);
 	}
 }
+
+
