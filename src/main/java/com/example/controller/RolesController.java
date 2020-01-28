@@ -16,27 +16,29 @@ import com.example.services.RolesService;
 
 @RestController
 @RequestMapping("rolesApi")
-public class RolesController {
+public class RolesController
+{
 	@Autowired
 	private RolesService rolesSerice;
 
 	@GetMapping("/roles")
-	public ResponseEntity<List<RoleEntity>> getRoles() 
+	public ResponseEntity<List<RoleEntity>> getRoles()
 	{
-		List<RoleEntity> 	localListOfRoles = null;
-		
+		List<RoleEntity> localListOfRoles = null;
+
 		localListOfRoles = rolesSerice.getRoles();
-		
+
 		return ResponseEntity.ok().body(localListOfRoles);
 	}
 
 	@GetMapping("/roles/{roleName}")
-	public ResponseEntity<RoleEntity> getRole(@PathVariable("roleName") String roleName)
+	public ResponseEntity<RoleEntity> getRole(
+		@PathVariable("roleName") String roleName)
 	{
-		RoleEntity 	localRoleEntity = null;
-				
+		RoleEntity localRoleEntity = null;
+
 		localRoleEntity = rolesSerice.getRoleByName(roleName);
-		
+
 		return ResponseEntity.ok().body(localRoleEntity);
 	}
 	@PostMapping("/roles/{roleName}")
@@ -45,5 +47,3 @@ public class RolesController {
 		rolesSerice.addRole(roleName);
 	}
 }
-
-

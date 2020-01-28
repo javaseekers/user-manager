@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.example.entities.UserEntity;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity,Integer>
+public interface UserRepository extends JpaRepository<UserEntity, Integer>
 {
 
 	public List<UserEntity> getByIsActive(Character isActive);
@@ -20,10 +20,10 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer>
 
 	@Modifying
 	@Query(" update UserEntity u set u.address = ?1 where u.firstName = ?2")
-	public void updateUser(String address,String firstName);
+	public UserEntity updateUser(String address, String firstName);
 
 	@Modifying
 	@Query(" update UserEntity u set u.isActive = 'N' where u.firstName = :firstName")
-	public void inActiveUser(@Param("firstName") String firstName);
+	public UserEntity inActiveUser(@Param("firstName") String firstName);
 
 }

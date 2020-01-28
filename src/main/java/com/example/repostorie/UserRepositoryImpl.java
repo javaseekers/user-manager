@@ -5,16 +5,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 //@Repository
-public class UserRepositoryImpl  
+public class UserRepositoryImpl
 {
 
 	@Modifying
 	@Query("update UserEntity u set u.address = ?1 where u.firstName = ?2")
-	public void updateUser(String firstName, String address) 
+	public void updateUser(String firstName, String address)
 	{
-		
+
 	}
-	
-	
 
 }

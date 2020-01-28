@@ -6,7 +6,7 @@ import com.example.entities.UserEntity;
 
 public interface UserService 
 {
-	public void addUser(UserEntity userEntity,String rolename);
+	public UserEntity addUser(UserEntity userEntity,String rolename);
 
 	public List<UserEntity> getUsers();
 
@@ -14,7 +14,7 @@ public interface UserService
 
 	public List<UserEntity> getUsersByEmail(String email);
 
-	public void updateUser(String firstName, String address);
+	public UserEntity updateUser(String firstName, String address);
 
-	public void inActiveUser(String firstName);
+	public UserEntity inActiveUser(String firstName);
 }

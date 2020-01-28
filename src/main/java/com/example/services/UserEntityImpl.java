@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.entities.RoleEntity;
 import com.example.entities.UserEntity;
 import com.example.repostorie.RolesRepository;
 import com.example.repostorie.UserRepository;
-import com.example.repostorie.UserRepositoryImpl;
 
 @Service
 public class UserEntityImpl implements UserService
@@ -19,40 +19,49 @@ public class UserEntityImpl implements UserService
 	private UserRepository userRepository;
 	@Autowired
 	private RolesRepository rolesRepo;
-	public void addUser(UserEntity userEntity,String rolename) 
+	public UserEntity addUser(UserEntity userEntity, String rolename)
 	{
-		
+		RoleEntity roleEntity=null;
 		userEntity.setCreatedDate(new Date());
-		userEntity.setRoleEntity(rolesRepo.getByRoleName(rolename));
 		
-		userRepository.save(userEntity);
-		
+		roleEntity=rolesRepo.getByRoleName(rolename);
+		if (roleEntity == null)
+		{
+			
+		}
+		else
+		{
+			userEntity.setRoleEntity(roleEntity);
+		}
+		return userRepository.save(userEntity);
+
 	}
 	@Override
-	public List<UserEntity> getUsers() 
+	public List<UserEntity> getUsers()
 	{
 		return userRepository.findAll();
 	}
 	@Override
-	public List<UserEntity> getActivteUsers(Character isActive) 
+	public List<UserEntity> getActivteUsers(Character isActive)
 	{
 		return userRepository.getByIsActive(isActive);
 	}
 	@Override
-	public List<UserEntity> getUsersByEmail(String email) {
+	public List<UserEntity> getUsersByEmail(String email)
+	{
 		// TODO Auto-generated method stub
 		return userRepository.getByEmail(email);
 	}
 
 	@Transactional
-	public void updateUser(String firstName, String address)
+	public UserEntity updateUser(String firstName, String address)
 	{
-		userRepository.updateUser(address,firstName);
+		return userRepository.updateUser(address, firstName);
 	}
 	@Transactional
-	public void inActiveUser(String firstName) 
+	public UserEntity inActiveUser(String firstName)
 	{
-		userRepository.inActiveUser(firstName);
+		return userRepository.inActiveUser(firstName);
 	}
 
 }

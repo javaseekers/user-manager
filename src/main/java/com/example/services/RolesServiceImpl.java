@@ -7,33 +7,36 @@ import org.springframework.stereotype.Service;
 
 import com.example.entities.RoleEntity;
 import com.example.repostorie.RolesRepository;
-	
+
 @Service
-public class RolesServiceImpl implements RolesService {
+public class RolesServiceImpl implements RolesService
+{
 
 	@Autowired
 	private RolesRepository rolesRepo;
-	
-	public List<RoleEntity> getRoles() {
+
+	public List<RoleEntity> getRoles()
+	{
 
 		return rolesRepo.findAll();
 	}
 
 	@Override
-	public RoleEntity getRoleByName(String rolename) 
+	public RoleEntity getRoleByName(String rolename)
 	{
 		return rolesRepo.getByRoleName(rolename);
 	}
 
 	@Override
-	public void addRole(String roleName) {
-		
-		RoleEntity roleEntity= new RoleEntity();
-		
+	public void addRole(String roleName)
+	{
+
+		RoleEntity roleEntity = new RoleEntity();
+
 		roleEntity.setRoleName(roleName);
-		
+
 		rolesRepo.save(roleEntity);
-		
+
 	}
 
 }
