@@ -20,10 +20,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>
 
 	@Modifying
 	@Query(" update UserEntity u set u.address = ?1 where u.firstName = ?2")
-	public UserEntity updateUser(String address, String firstName);
+	public void updateUser(String address, String firstName);
 
 	@Modifying
 	@Query(" update UserEntity u set u.isActive = 'N' where u.firstName = :firstName")
-	public UserEntity inActiveUser(@Param("firstName") String firstName);
+	public void inActiveUser(@Param("firstName") String firstName);
 
 }

@@ -14,7 +14,7 @@ public interface UserService
 
 	public List<UserEntity> getUsersByEmail(String email);
 
-	public UserEntity updateUser(String firstName, String address);
+	public void updateUser(String firstName, String address);
 
-	public UserEntity inActiveUser(String firstName);
+	public void inActiveUser(String firstName);
 }

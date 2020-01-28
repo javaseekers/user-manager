@@ -54,14 +54,14 @@ public class UserEntityImpl implements UserService
 	}
 
 	@Transactional
-	public UserEntity updateUser(String firstName, String address)
+	public void updateUser(String firstName, String address)
 	{
-		return userRepository.updateUser(address, firstName);
+		 userRepository.updateUser(address, firstName);
 	}
 	@Transactional
-	public UserEntity inActiveUser(String firstName)
+	public void inActiveUser(String firstName)
 	{
-		return userRepository.inActiveUser(firstName);
+		 userRepository.inActiveUser(firstName);
 	}
 
 }

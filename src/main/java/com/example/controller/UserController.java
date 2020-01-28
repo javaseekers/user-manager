@@ -151,14 +151,13 @@ public class UserController
 	}
 
 	@PutMapping("/user")
-	public ResponseEntity<UserEntity> updateUser(
+	public ResponseEntity<String> updateUser(
 		@RequestParam("firstName") String firstName,
 		@RequestParam("address") String address) throws UpdateUserError
 	{
-		UserEntity localUserEntity = null;
 		try
 		{
-			localUserEntity = userService.updateUser(firstName, address);
+			 userService.updateUser(firstName, address);
 		}
 		catch (Exception e)
 		{
@@ -166,19 +165,18 @@ public class UserController
 				"error.update.user.issue");
 		}
 
-		return ResponseEntity.ok().body(localUserEntity);
+		return ResponseEntity.ok().body("updated successfully");
 	}
 
 	@PutMapping("/user/inactive")
-	public ResponseEntity<UserEntity> inActiveUser(
+	public ResponseEntity<String> inActiveUser(
 		@RequestParam("firstName") String firstName) throws UpdateUserError
 	{
-		UserEntity localUserEntity = null;
 		try
 		{
 			System.out.println(firstName);
 			
-			localUserEntity = userService.inActiveUser(firstName);
+			 userService.inActiveUser(firstName);
 		}
 		catch (Exception e)
 		{
@@ -188,6 +186,6 @@ public class UserController
 				"error.update.user.issue");
 		}
 
-		return ResponseEntity.ok().body(localUserEntity);
+		return ResponseEntity.ok().body("updated sucessfully");
 	}
 }
