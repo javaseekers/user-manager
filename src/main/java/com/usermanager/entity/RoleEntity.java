@@ -22,8 +22,8 @@ public class RoleEntity implements Serializable {
 	
 	@Column(name = "ROLE_NAME")
 	private String roleName;
-	@OneToOne(mappedBy="role")
-	private UsersEntity user;
+
+	
 
 	public int getRoleId() {
 		return roleId;

@@ -7,6 +7,8 @@ import com.usermanager.entity.UsersEntity;
 public interface UsersServiceInterface {
 	public List<UsersEntity> getAllUser();
 	public UsersEntity getUserActive(String isActive);
-	public UsersEntity getUserByRole(Integer roleId);
+	public void addUsers(UsersEntity localEntity);
+	public void updateUserPhone(String phone, String firstName);
+	public void userUpdateActive(String firstName);
 
 }

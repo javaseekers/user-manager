@@ -1,9 +1,11 @@
 package com.usermanager.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.usermanager.entity.UsersEntity;
 import com.usermanager.repository.UsersRepository;
@@ -23,8 +25,27 @@ public class UserServiceImpl implements UsersServiceInterface {
 	}
 
 	@Override
-	public UsersEntity getUserByRole(Integer roleId) {
-		return userReposp.getUserByRole(roleId);
+	public void addUsers(UsersEntity localUser) 
+	{
+		localUser.setIsActive("Y");
+		localUser.setCreatedate(new Date());
+		
+		userReposp.save(localUser);	
+	}
+
+	@Transactional
+	public void updateUserPhone(String phone, String firstName)
+	{
+		System.out.println("test");
+		userReposp.userUpdateByName(phone, firstName);
+	}
+
+	@Transactional
+	public void userUpdateActive(String firstName)
+	{
+		System.out.println("test");
+		userReposp.userUpdateActive(firstName);
+	
 	}
 
 }

@@ -44,7 +44,14 @@ public class UsersEntity {
 	private String isActive;
 	@OneToOne
 	@JoinColumn(name="ROLE_ID")
-	private RoleEntity role;
+	private RoleEntity roleEntity;
+	
+	public RoleEntity getRoleEntity() {
+		return roleEntity;
+	}
+	public void setRoleEntity(RoleEntity roleEntity) {
+		this.roleEntity = roleEntity;
+	}
 	public int getUserId() {
 		return userId;
 	}

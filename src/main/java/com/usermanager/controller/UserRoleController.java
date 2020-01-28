@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,12 +60,42 @@ public class UserRoleController {
 		localEntity = userService.getUserActive(userActive);
 		return ResponseEntity.ok().body(localEntity);
 	}
+
+	@PostMapping("/adduser/{firstName}/{lastName}/{email}/{password}/{address}/{phone}/{createdBy}/{roleName}")
+	public void addUsers(@PathVariable String firstName, @PathVariable String lastName,
+			@PathVariable String email, @PathVariable String password, @PathVariable String address,
+			@PathVariable String phone, @PathVariable String createdBy, @PathVariable String roleName) 
+	{
+		UsersEntity localUser = new UsersEntity();
+		//localUser.setUserId(userId);
+		localUser.setFirstName(firstName);
+		localUser.setLastName(lastName);
+		localUser.setEmail(email);
+		localUser.setPassword(password);
+		localUser.setAddress(address);
+		localUser.setMobile(phone);
+		localUser.setCreatedBy(createdBy);
+		localUser.setRoleEntity(roleService.getRoleName(roleName));
+		userService.addUsers(localUser);
+	}
+	@PostMapping("/adduserBody/{roleName}")
+	public void addUserBody(@RequestBody UsersEntity localUser, @PathVariable String roleName) 
+	{
+		localUser.setRoleEntity(roleService.getRoleName(roleName));
+		System.out.println("*************************************   "+roleService.getRoleName(roleName));
+		userService.addUsers(localUser);
+	}
 	
-	@GetMapping("/userrole/{userRoleId}")
-	public ResponseEntity<UsersEntity> getUsersByrole(@PathVariable Integer userRoleId) {
-		UsersEntity localEntity = null;
-		localEntity = userService.getUserByRole(userRoleId);
-		return ResponseEntity.ok().body(localEntity);
+	@PostMapping("/updateUser/{phone}/{firstName}")
+	public void updatePhone(@PathVariable String phone,@PathVariable String firstName) 
+	{
+		userService.updateUserPhone(phone, firstName);
+	}
+	
+	@PostMapping("/updateUseractive/{firstName}")
+	public void updatePhone(@PathVariable String firstName) 
+	{
+		userService.userUpdateActive(firstName);
 	}
 
 
