@@ -1,5 +1,6 @@
 package com.example.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "USERS")
-public class UserEntity
+public class UserEntity implements Serializable
 {
 
 	@Id
@@ -44,7 +45,7 @@ public class UserEntity
 	@Column(name = "UPDATE_DATE")
 	private Date updatedDate;
 	@Column(name = "IS_ACTIVE")
-	private Character isActive;
+	private Boolean isActive;
 //	@OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
 	@OneToOne
@@ -141,12 +142,12 @@ public class UserEntity
 	{
 		this.updatedDate = updatedDate;
 	}
-
-	public Character getIsActive()
+	
+	public Boolean getIsActive()
 	{
 		return isActive;
 	}
-	public void setIsActive(Character isActive)
+	public void setIsActive(Boolean isActive)
 	{
 		this.isActive = isActive;
 	}

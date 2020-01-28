@@ -2,10 +2,10 @@ package com.example.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.entities.RoleEntity;
 import com.example.entities.UserEntity;
@@ -19,20 +19,17 @@ public class UserEntityImpl implements UserService
 	private UserRepository userRepository;
 	@Autowired
 	private RolesRepository rolesRepo;
-	public UserEntity addUser(UserEntity userEntity, String rolename)
+
+	public UserEntity registerUser(UserEntity userEntity)
 	{
-		RoleEntity roleEntity=null;
+		RoleEntity roleEntity = null;
+		userEntity.setCreatedBy("admin");
 		userEntity.setCreatedDate(new Date());
-		
-		roleEntity=rolesRepo.getByRoleName(rolename);
-		if (roleEntity == null)
-		{
-			
-		}
-		else
-		{
-			userEntity.setRoleEntity(roleEntity);
-		}
+
+		roleEntity = rolesRepo.getByRoleName("STUDENT");
+
+		userEntity.setRoleEntity(roleEntity);
+
 		return userRepository.save(userEntity);
 
 	}
@@ -42,26 +39,87 @@ public class UserEntityImpl implements UserService
 		return userRepository.findAll();
 	}
 	@Override
-	public List<UserEntity> getActivteUsers(Character isActive)
+	public List<UserEntity> getActivteUsers()
 	{
-		return userRepository.getByIsActive(isActive);
+		return userRepository.getByIsActive('Y');
 	}
 	@Override
-	public List<UserEntity> getUsersByEmail(String email)
+	public UserEntity getUserByEmail(String email)
 	{
 		// TODO Auto-generated method stub
 		return userRepository.getByEmail(email);
 	}
 
-	@Transactional
-	public void updateUser(String firstName, String address)
+	public UserEntity updateUser(UserEntity newUserEntity)
 	{
-		 userRepository.updateUser(address, firstName);
+		UserEntity oldUserEntity = null;
+
+		oldUserEntity = userRepository.getByEmail(newUserEntity.getEmail());
+
+		newUserEntity = updateNotNullUserInfoToUserEntity(oldUserEntity,
+			newUserEntity);
+
+		return userRepository.save(newUserEntity);
 	}
-	@Transactional
-	public void inActiveUser(String firstName)
+
+	public void deleteUser(String email)
 	{
-		 userRepository.inActiveUser(firstName);
+		UserEntity userEntity = userRepository.getByEmail(email);
+
+		userEntity.setIsActive(false);
+
+		userRepository.save(userEntity);
+	}
+
+	private UserEntity updateNotNullUserInfoToUserEntity(
+		UserEntity oldUserEntity, UserEntity newUserEntity)
+	{
+		String firstName;
+		String lastName;
+		String password;
+		String address;
+		String phoneNo;
+
+		firstName = newUserEntity.getFirstName();
+
+		firstName = Objects.toString(firstName, "");
+
+		lastName = newUserEntity.getLastName();
+
+		lastName = Objects.toString(lastName, "");
+
+		password = newUserEntity.getPassword();
+
+		password = Objects.toString(password, "");
+
+		address = newUserEntity.getAddress();
+
+		address = Objects.toString(address, "");
+
+		phoneNo = newUserEntity.getPhoneNo();
+		phoneNo = Objects.toString(phoneNo, "");
+
+		if (firstName.length() > 0)
+		{
+			oldUserEntity.setFirstName(firstName);
+		}
+		if (lastName.length() > 0)
+		{
+			oldUserEntity.setLastName(lastName);
+		}
+		if (password.length() > 0)
+		{
+			oldUserEntity.setPassword(password);
+		}
+		if (address.length() > 0)
+		{
+			oldUserEntity.setAddress(address);
+		}
+		if (phoneNo.length() > 0)
+		{
+			oldUserEntity.setPhoneNo(phoneNo);
+		}
+		return oldUserEntity;
 	}
 
 }

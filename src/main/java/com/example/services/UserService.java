@@ -4,17 +4,17 @@ import java.util.List;
 
 import com.example.entities.UserEntity;
 
-public interface UserService 
+public interface UserService
 {
-	public UserEntity addUser(UserEntity userEntity,String rolename);
+	public UserEntity registerUser(UserEntity userEntity);
 
 	public List<UserEntity> getUsers();
 
-	public List<UserEntity> getActivteUsers(Character isActive);
+	public List<UserEntity> getActivteUsers();
 
-	public List<UserEntity> getUsersByEmail(String email);
+	public UserEntity getUserByEmail(String email);
 
-	public void updateUser(String firstName, String address);
-
-	public void inActiveUser(String firstName);
+	public UserEntity updateUser(UserEntity userEntity);
+	
+	public void deleteUser(String email);
 }

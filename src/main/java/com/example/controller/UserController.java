@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entities.UserEntity;
@@ -27,30 +28,26 @@ public class UserController
 	@GetMapping("users")
 	public ResponseEntity<Object> getUsers()
 	{
-
 		List<UserEntity> usersList = null;
 
-		usersList = userService.getActivteUsers('Y');
+		usersList = userService.getUsers();
 
-		if (usersList != null && usersList.size() == 0)
+		if (CollectionUtils.isEmpty(usersList))
 		{
 			return ResponseEntity.ok().body("No Users Found");
 		}
 		else
 		{
-
 			return ResponseEntity.ok().body(userService.getUsers());
 		}
 
 	}
-
-	@GetMapping("users/active")
+	@GetMapping("activeUsers")
 	public ResponseEntity<Object> getActiveUser()
 	{
-
 		List<UserEntity> usersList = null;
 
-		usersList = userService.getActivteUsers('Y');
+		usersList = userService.getActivteUsers();
 
 		if (usersList != null && usersList.size() == 0)
 		{
@@ -59,105 +56,53 @@ public class UserController
 		else
 		{
 
-			return ResponseEntity.ok().body(userService.getActivteUsers('Y'));
+			return ResponseEntity.ok().body(userService.getActivteUsers());
 		}
 
 	}
 
-	@GetMapping("users/email/{email}")
-	public ResponseEntity<Object> getUsersByEmail(
+	@GetMapping("users/{email}")
+	public ResponseEntity<Object> getUserByEmail(
 		@PathVariable("email") String email)
 	{
-		List<UserEntity> usersList = null;
+		UserEntity userEntity = null;
 
-		usersList = userService.getActivteUsers('Y');
+		userEntity = userService.getUserByEmail(email);
 
-		if (usersList != null && usersList.size() == 0)
+		if (userEntity != null)
 		{
-			return ResponseEntity.ok().body("No Users Found");
+			return ResponseEntity.ok().body("No Users Found with this mail");
 		}
 		else
 		{
 
-			return ResponseEntity.ok()
-				.body(userService.getUsersByEmail(email));
-		}
-
-	}
-	@PostMapping("/user/{firstName}/{lastName}/{email}/{password}/{address}/{phoneNo}/{createdBy}/{roleName}")
-	public void addUser(@PathVariable("firstName") String firstName,
-		@PathVariable("lastName") String lastName,
-		@PathVariable("email") String email,
-		@PathVariable("password") String password,
-		@PathVariable("address") String address,
-		@PathVariable("phoneNo") String phoneNo,
-		@PathVariable("createdBy") String createdBy,
-		@PathVariable("roleName") String roleName) throws UserCreationFailed
-	{
-		UserEntity localUserEntity = new UserEntity();
-
-		localUserEntity.setFirstName(firstName);
-		localUserEntity.setLastName(lastName);
-		localUserEntity.setEmail(email);
-		localUserEntity.setPassword(password);
-		localUserEntity.setAddress(address);
-		localUserEntity.setPhoneNo(phoneNo);
-		localUserEntity.setCreatedBy(createdBy);
-		try
-		{
-			localUserEntity = userService.addUser(localUserEntity, roleName);
-		}
-		catch (Exception e)
-		{
-			throw new UserCreationFailed(
-				"Unable to Create User");
+			return ResponseEntity.ok().body(userService.getUserByEmail(email));
 		}
 
 	}
 
-	@PostMapping("/user/{roleName}")
-	public void addUser(@RequestBody UserEntity userEntity,
-		@PathVariable("roleName") String roleName) throws UserCreationFailed
+	@PostMapping("/users")
+	public void registerUser(@RequestBody UserEntity userEntity)
+		throws UserCreationFailed
 	{
 		UserEntity localUserEntity = null;
 		try
 		{
-			localUserEntity = userService.addUser(localUserEntity, roleName);
+			localUserEntity = userService.registerUser(localUserEntity);
 		}
 		catch (Exception e)
 		{
 			throw new UserCreationFailed(
-				"Unable to Create User");
+				"Unable to Register User");
 		}
 	}
-
-	@PostMapping("/user")
-	public ResponseEntity<UserEntity> addUsers(
-		@RequestBody UserEntity userEntity,
-		@RequestParam("roleName") String roleName) throws UserCreationFailed
-	{
-		UserEntity localUserEntity = null;
-		try
-		{
-			localUserEntity = userService.addUser(userEntity, roleName);
-		}
-		catch (Exception e)
-		{
-			throw new UserCreationFailed(
-				"error.unable.to.add.user");
-		}
-
-		return ResponseEntity.ok().body(localUserEntity);
-	}
-
-	@PutMapping("/user")
+	@PutMapping("/users")
 	public ResponseEntity<String> updateUser(
-		@RequestParam("firstName") String firstName,
-		@RequestParam("address") String address) throws UpdateUserError
+		@RequestBody UserEntity userEntity) throws UpdateUserError
 	{
 		try
 		{
-			 userService.updateUser(firstName, address);
+			userService.updateUser(userEntity);
 		}
 		catch (Exception e)
 		{
@@ -168,20 +113,16 @@ public class UserController
 		return ResponseEntity.ok().body("updated successfully");
 	}
 
-	@PutMapping("/user/inactive")
-	public ResponseEntity<String> inActiveUser(
-		@RequestParam("firstName") String firstName) throws UpdateUserError
+	@DeleteMapping("/users/{email}")
+	public ResponseEntity<String> deleteUser(
+		@PathVariable("email") String email) throws UpdateUserError
 	{
 		try
 		{
-			System.out.println(firstName);
-			
-			 userService.inActiveUser(firstName);
+			userService.deleteUser(email);
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
-			
 			throw new UpdateUserError(
 				"error.update.user.issue");
 		}
