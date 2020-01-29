@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,118 +14,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entities.UserEntity;
-import com.example.exceptions.UserCreationFailed;
-import com.example.services.UserService;
+import com.example.services.UserServiceImpl;
 
 @RestController
 @RequestMapping("userApi")
 public class UserController
 {
 	@Autowired
-	private UserService userService;
+	private UserServiceImpl userService;
 
 	@GetMapping("users")
-	public ResponseEntity<Object> getUsers()
+	public ResponseEntity<List<UserEntity>> getUsers()
 	{
-		List<UserEntity> usersList = null;
-
-		usersList = userService.getUsers();
-
-		if (CollectionUtils.isEmpty(usersList))
-		{
-			return ResponseEntity.ok().body("No Users Found");
-		}
-		else
-		{
-			return ResponseEntity.ok().body(userService.getUsers());
-		}
-
+		return ResponseEntity.ok().body(userService.getUsers());
 	}
 	@GetMapping("activeUsers")
-	public ResponseEntity<Object> getActiveUser()
+	public ResponseEntity<List<UserEntity>> getActiveUser()
 	{
-		List<UserEntity> usersList = null;
-
-		usersList = userService.getActivteUsers();
-
-		if (usersList != null && usersList.size() == 0)
-		{
-			return ResponseEntity.ok().body("No Active Users Found");
-		}
-		else
-		{
-
-			return ResponseEntity.ok().body(userService.getActivteUsers());
-		}
-
+		return ResponseEntity.ok().body(userService.getActivteUsers());
 	}
-
 	@GetMapping("users/{email}")
-	public ResponseEntity<Object> getUserByEmail(
+	public ResponseEntity<UserEntity> getUserByEmail(
 		@PathVariable("email") String email)
 	{
-		UserEntity userEntity = null;
-
-		userEntity = userService.getUserByEmail(email);
-
-		if (userEntity != null)
-		{
-			return ResponseEntity.ok().body("No Users Found with this mail");
-		}
-		else
-		{
-
-			return ResponseEntity.ok().body(userService.getUserByEmail(email));
-		}
-
+		return ResponseEntity.ok().body(userService.getUserByEmail(email));
 	}
 
 	@PostMapping("/users")
-	public void registerUser(@RequestBody UserEntity userEntity)
-		throws UserCreationFailed
+	public ResponseEntity<String> registerUser(
+		@RequestBody UserEntity userEntity)
 	{
-		UserEntity localUserEntity = null;
-		try
-		{
-			localUserEntity = userService.registerUser(localUserEntity);
-		}
-		catch (Exception e)
-		{
-			throw new UserCreationFailed(
-				"Unable to Register User");
-		}
+		userService.registerUser(userEntity);
+		return ResponseEntity.ok().body("User Registered Sucessfully");
+
 	}
 	@PutMapping("/users")
 	public ResponseEntity<String> updateUser(
-		@RequestBody UserEntity userEntity) throws UpdateUserError
+		@RequestBody UserEntity userEntity)
 	{
-		try
-		{
-			userService.updateUser(userEntity);
-		}
-		catch (Exception e)
-		{
-			throw new UpdateUserError(
-				"error.update.user.issue");
-		}
+		userService.updateUser(userEntity);
 
 		return ResponseEntity.ok().body("updated successfully");
 	}
 
 	@DeleteMapping("/users/{email}")
 	public ResponseEntity<String> deleteUser(
-		@PathVariable("email") String email) throws UpdateUserError
+		@PathVariable("email") String email)
 	{
-		try
-		{
-			userService.deleteUser(email);
-		}
-		catch (Exception e)
-		{
-			throw new UpdateUserError(
-				"error.update.user.issue");
-		}
-
-		return ResponseEntity.ok().body("updated sucessfully");
+		userService.deleteUser(email);
+		return ResponseEntity.ok().body("User Deleted sucessfully");
 	}
 }

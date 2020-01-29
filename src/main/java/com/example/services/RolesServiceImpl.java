@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.entities.RoleEntity;
-import com.example.repostorie.RolesRepository;
+import com.example.repositories.RolesRepository;
 
 @Service
 public class RolesServiceImpl implements RolesService

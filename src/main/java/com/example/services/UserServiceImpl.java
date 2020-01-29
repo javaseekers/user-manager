@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.entities.RoleEntity;
 import com.example.entities.UserEntity;
-import com.example.repostorie.RolesRepository;
-import com.example.repostorie.UserRepository;
+import com.example.repositories.RolesRepository;
+import com.example.repositories.UserRepository;
 
 @Service
-public class UserEntityImpl implements UserService
+public class UserServiceImpl
 {
 	@Autowired
 	private UserRepository userRepository;
@@ -23,8 +23,11 @@ public class UserEntityImpl implements UserService
 	public UserEntity registerUser(UserEntity userEntity)
 	{
 		RoleEntity roleEntity = null;
+
 		userEntity.setCreatedBy("admin");
 		userEntity.setCreatedDate(new Date());
+
+		userEntity.setIsActive(true);
 
 		roleEntity = rolesRepo.getByRoleName("STUDENT");
 
@@ -33,28 +36,23 @@ public class UserEntityImpl implements UserService
 		return userRepository.save(userEntity);
 
 	}
-	@Override
 	public List<UserEntity> getUsers()
 	{
 		return userRepository.findAll();
 	}
-	@Override
 	public List<UserEntity> getActivteUsers()
 	{
-		return userRepository.getByIsActive('Y');
+		return userRepository.getByIsActive(true);
 	}
-	@Override
 	public UserEntity getUserByEmail(String email)
 	{
-		// TODO Auto-generated method stub
 		return userRepository.getByEmail(email);
 	}
 
 	public UserEntity updateUser(UserEntity newUserEntity)
 	{
-		UserEntity oldUserEntity = null;
-
-		oldUserEntity = userRepository.getByEmail(newUserEntity.getEmail());
+		UserEntity oldUserEntity = userRepository
+			.getByEmail(newUserEntity.getEmail());
 
 		newUserEntity = updateNotNullUserInfoToUserEntity(oldUserEntity,
 			newUserEntity);
