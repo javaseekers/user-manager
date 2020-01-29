@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="users")
@@ -34,14 +36,16 @@ public class UsersEntity {
 	private String mobile;
 	@Column(name="CREATED_BY")
 	private String createdBy;
+	@Temporal(TemporalType.DATE)
 	@Column(name="CREATED_DATE")
 	private Date createdate;
 	@Column(name="UPDATED_BY")
 	private String updateBy;
 	@Column(name="UPDATED_DATE")
+	@Temporal(TemporalType.DATE)
 	private Date updatedate;
 	@Column(name="IS_ACTIVE")
-	private String isActive;
+	private boolean isActive;
 	@OneToOne
 	@JoinColumn(name="ROLE_ID")
 	private RoleEntity roleEntity;
@@ -118,13 +122,13 @@ public class UsersEntity {
 	public void setUpdatedate(Date updatedate) {
 		this.updatedate = updatedate;
 	}
-	
-	public String getIsActive() {
+	public boolean isActive() {
 		return isActive;
 	}
-	public void setIsActive(String isActive) {
+	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+	
 	
 
 }

@@ -20,14 +20,14 @@ public class UserServiceImpl implements UsersServiceInterface {
 	}
 
 	@Override
-	public UsersEntity getUserActive(String isActive) {
-		return userReposp.getByIsActive(isActive);
+	public UsersEntity getUserByName(String isActive) {
+		return userReposp.getByEmail(isActive);
 	}
 
 	@Override
 	public void addUsers(UsersEntity localUser) 
 	{
-		localUser.setIsActive("Y");
+		localUser.setActive(true);
 		localUser.setCreatedate(new Date());
 		
 		userReposp.save(localUser);	
@@ -40,12 +40,12 @@ public class UserServiceImpl implements UsersServiceInterface {
 		userReposp.userUpdateByName(phone, firstName);
 	}
 
-	@Transactional
-	public void userUpdateActive(String firstName)
-	{
-		System.out.println("test");
-		userReposp.userUpdateActive(firstName);
-	
+	@Override
+	public void userUpdateEmail(String email) {
+		UsersEntity UsersEntity=userReposp.getUserByEmail(email);
+		UsersEntity.setActive(false);
+		userReposp.save(UsersEntity);
+		
 	}
 
 }

@@ -9,14 +9,13 @@ import com.usermanager.entity.UsersEntity;
 @Repository
 public interface UsersRepository extends JpaRepository<UsersEntity, Integer> {
 	
-	public UsersEntity getByIsActive(String isActive);
+	public UsersEntity getByEmail(String email);
 	
 	@Modifying
 	@Query("UPDATE UsersEntity u SET u.mobile = :mobile WHERE u.firstName = :firstName")
 	public void userUpdateByName(String mobile, String firstName);
-	@Modifying
-	@Query("UPDATE UsersEntity u SET u.isActive = 'N' WHERE u.firstName = :firstName")
-	public void userUpdateActive(String firstName);
+
+	public UsersEntity getUserByEmail(String email);
 	
 	
 	}

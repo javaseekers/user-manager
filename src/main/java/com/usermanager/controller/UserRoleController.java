@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +29,7 @@ public class UserRoleController {
 		return "hi";
 	}
 
-	@GetMapping("/rolelist")
+	@GetMapping("/roles")
 	public ResponseEntity<List<RoleEntity>> getRoleList() {
 		List<RoleEntity> localListOfRoles = null;
 
@@ -39,15 +38,15 @@ public class UserRoleController {
 		return ResponseEntity.ok().body(localListOfRoles);
 	}
 
-	@GetMapping("/roleName/{roleName}")
-	public ResponseEntity<RoleEntity> getRoleByName(@PathVariable String roleName) {
+	@GetMapping("/role/{name}")
+	public ResponseEntity<RoleEntity> getRoleByName(@PathVariable String name) {
 		RoleEntity localEntity = null;
-		localEntity = roleService.getRoleName(roleName);
+		localEntity = roleService.getRoleName(name);
 
 		return ResponseEntity.ok().body(localEntity);
 	}
 
-	@GetMapping("/userlist")
+	@GetMapping("/users")
 	public ResponseEntity<List<UsersEntity>> getUserList() {
 		List<UsersEntity> localListOfUsers = null;
 		localListOfUsers = userService.getAllUser();
@@ -57,7 +56,7 @@ public class UserRoleController {
 	@GetMapping("/userActive/{userActive}")
 	public ResponseEntity<UsersEntity> getActiveUsers(@PathVariable String userActive) {
 		UsersEntity localEntity = null;
-		localEntity = userService.getUserActive(userActive);
+		localEntity = userService.getUserByName(userActive);
 		return ResponseEntity.ok().body(localEntity);
 	}
 
@@ -82,7 +81,6 @@ public class UserRoleController {
 	public void addUserBody(@RequestBody UsersEntity localUser, @PathVariable String roleName) 
 	{
 		localUser.setRoleEntity(roleService.getRoleName(roleName));
-		System.out.println("*************************************   "+roleService.getRoleName(roleName));
 		userService.addUsers(localUser);
 	}
 	
@@ -92,10 +90,10 @@ public class UserRoleController {
 		userService.updateUserPhone(phone, firstName);
 	}
 	
-	@PostMapping("/updateUseractive/{firstName}")
-	public void updatePhone(@PathVariable String firstName) 
+	@PostMapping("/inactive/{email}")
+	public void updateInActive(@PathVariable String email) 
 	{
-		userService.userUpdateActive(firstName);
+		userService.userUpdateEmail(email);
 	}
 
 
