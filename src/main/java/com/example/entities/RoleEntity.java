@@ -10,10 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "roles")
-public class RoleEntity implements Serializable
+public @Data class  RoleEntity implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "role_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
@@ -21,21 +27,4 @@ public class RoleEntity implements Serializable
 	private Integer roleId;
 	@Column(name = "role_name")
 	private String roleName;
-	public Integer getRoleId()
-	{
-		return roleId;
-	}
-	public void setRoleId(Integer roleId)
-	{
-		this.roleId = roleId;
-	}
-	public String getRoleName()
-	{
-		return roleName;
-	}
-	public void setRoleName(String roleName)
-	{
-		this.roleName = roleName;
-	}
-
 }

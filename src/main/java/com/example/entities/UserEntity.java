@@ -13,9 +13,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "USERS")
-public class UserEntity implements Serializable
+public @Data class UserEntity implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -50,113 +52,5 @@ public class UserEntity implements Serializable
 	@OneToOne
 	@JoinColumn(name = "ROLE_ID")
 	private RoleEntity roleEntity;
-	public Integer getId()
-	{
-		return Id;
-	}
-	public void setId(Integer id)
-	{
-		Id = id;
-	}
-	public String getFirstName()
-	{
-		return firstName;
-	}
-	public void setFirstName(String firstName)
-	{
-		this.firstName = firstName;
-	}
-	public String getLastName()
-	{
-		return lastName;
-	}
-	public void setLastName(String lastName)
-	{
-		this.lastName = lastName;
-	}
-	public String getEmail()
-	{
-		return email;
-	}
-	public void setEmail(String email)
-	{
-		this.email = email;
-	}
-
-	public String getPassword()
-	{
-		return password;
-	}
-	public void setPassword(String password)
-	{
-		this.password = password;
-	}
-	public String getAddress()
-	{
-		return address;
-	}
-	public void setAddress(String address)
-	{
-		this.address = address;
-	}
-	public String getPhoneNo()
-	{
-		return phoneNo;
-	}
-	public void setPhoneNo(String phoneNo)
-	{
-		this.phoneNo = phoneNo;
-	}
-	public String getCreatedBy()
-	{
-		return createdBy;
-	}
-	public void setCreatedBy(String createdBy)
-	{
-		this.createdBy = createdBy;
-	}
-
-	public Date getCreatedDate()
-	{
-		return createdDate;
-	}
-	public void setCreatedDate(Date createdDate)
-	{
-		this.createdDate = createdDate;
-	}
-	public String getUpdatedBy()
-	{
-		return updatedBy;
-	}
-	public void setUpdatedBy(String updatedBy)
-	{
-		this.updatedBy = updatedBy;
-	}
-
-	public Date getUpdatedDate()
-	{
-		return updatedDate;
-	}
-	public void setUpdatedDate(Date updatedDate)
-	{
-		this.updatedDate = updatedDate;
-	}
 	
-	public Boolean getIsActive()
-	{
-		return isActive;
-	}
-	public void setIsActive(Boolean isActive)
-	{
-		this.isActive = isActive;
-	}
-	public RoleEntity getRoleEntity()
-	{
-		return roleEntity;
-	}
-	public void setRoleEntity(RoleEntity roleEntity)
-	{
-		this.roleEntity = roleEntity;
-	}
-
 }
