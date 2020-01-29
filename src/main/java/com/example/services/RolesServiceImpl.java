@@ -9,7 +9,7 @@ import com.example.entities.RoleEntity;
 import com.example.repositories.RolesRepository;
 
 @Service
-public class RolesServiceImpl implements RolesService
+public class RolesServiceImpl
 {
 
 	@Autowired
@@ -21,13 +21,11 @@ public class RolesServiceImpl implements RolesService
 		return rolesRepo.findAll();
 	}
 
-	@Override
 	public RoleEntity getRoleByName(String rolename)
 	{
 		return rolesRepo.getByRoleName(rolename);
 	}
 
-	@Override
 	public void addRole(String roleName)
 	{
 
