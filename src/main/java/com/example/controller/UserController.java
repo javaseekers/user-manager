@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.UserDto;
 import com.example.entities.UserEntity;
 import com.example.services.UserServiceImpl;
 
@@ -50,11 +51,11 @@ public class UserController
 	}
 	@PutMapping("/users")
 	public ResponseEntity<String> updateUser(
-		@RequestBody UserEntity userEntity)
+		@RequestBody UserDto userEntity)
 	{
 		userService.updateUser(userEntity);
 
-		return ResponseEntity.ok().body("updated successfully");
+		return ResponseEntity.ok().body("User updated successfully");
 	}
 
 	@DeleteMapping("/users/{email}")

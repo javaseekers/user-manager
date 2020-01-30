@@ -2,11 +2,12 @@ package com.example.services;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.dto.UserDto;
 import com.example.entities.RoleEntity;
 import com.example.entities.UserEntity;
 import com.example.repositories.RolesRepository;
@@ -49,15 +50,18 @@ public class UserServiceImpl
 		return userRepository.getByEmail(email);
 	}
 
-	public UserEntity updateUser(UserEntity newUserEntity)
+	public UserEntity updateUser(UserDto newUserDto)
 	{
-		UserEntity oldUserEntity = userRepository
-			.getByEmail(newUserEntity.getEmail());
+		UserEntity dbUserEntity = userRepository
+			.getByEmail(newUserDto.getEmail());
+		
+		BeanUtils.copyProperties(newUserDto, dbUserEntity);
+		
+		dbUserEntity.setUpdatedBy("ADMIN");
 
-		newUserEntity = updateNotNullUserInfoToUserEntity(oldUserEntity,
-			newUserEntity);
+		dbUserEntity.setUpdatedDate(new Date());
 
-		return userRepository.save(newUserEntity);
+		return userRepository.save(dbUserEntity);
 	}
 
 	public void deleteUser(String email)
@@ -68,56 +72,4 @@ public class UserServiceImpl
 
 		userRepository.save(userEntity);
 	}
-
-	private UserEntity updateNotNullUserInfoToUserEntity(
-		UserEntity oldUserEntity, UserEntity newUserEntity)
-	{
-		String firstName;
-		String lastName;
-		String password;
-		String address;
-		String phoneNo;
-
-		firstName = newUserEntity.getFirstName();
-
-		firstName = Objects.toString(firstName, "");
-
-		lastName = newUserEntity.getLastName();
-
-		lastName = Objects.toString(lastName, "");
-
-		password = newUserEntity.getPassword();
-
-		password = Objects.toString(password, "");
-
-		address = newUserEntity.getAddress();
-
-		address = Objects.toString(address, "");
-
-		phoneNo = newUserEntity.getPhoneNo();
-		phoneNo = Objects.toString(phoneNo, "");
-
-		if (firstName.length() > 0)
-		{
-			oldUserEntity.setFirstName(firstName);
-		}
-		if (lastName.length() > 0)
-		{
-			oldUserEntity.setLastName(lastName);
-		}
-		if (password.length() > 0)
-		{
-			oldUserEntity.setPassword(password);
-		}
-		if (address.length() > 0)
-		{
-			oldUserEntity.setAddress(address);
-		}
-		if (phoneNo.length() > 0)
-		{
-			oldUserEntity.setPhoneNo(phoneNo);
-		}
-		return oldUserEntity;
-	}
-
 }
