@@ -11,36 +11,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.usermanager.entity.RoleEntity;
 import com.usermanager.entity.UsersEntity;
 import com.usermanager.service.RoleServiceInterface;
 import com.usermanager.service.UsersServiceInterface;
-
 @RestController
-@RequestMapping("roleapi")
-public class UserRoleController {
+@RequestMapping("userapi")
+public class UserController {
 	@Autowired
 	RoleServiceInterface roleService;
 	@Autowired
 	UsersServiceInterface userService;
-
-	@GetMapping("/roles")
-	public ResponseEntity<List<RoleEntity>> getRoleList() {
-		List<RoleEntity> localListOfRoles = null;
-
-		localListOfRoles = roleService.getRoles();
-
-		return ResponseEntity.ok().body(localListOfRoles);
-	}
-
-	@GetMapping("/role/{name}")
-	public ResponseEntity<RoleEntity> getRoleByName(@PathVariable String name) {
-		RoleEntity localEntity = null;
-		localEntity = roleService.getRoleName(name);
-
-		return ResponseEntity.ok().body(localEntity);
-	}
-
 	@GetMapping("/users")
 	public ResponseEntity<List<UsersEntity>> getUserList() {
 		List<UsersEntity> localListOfUsers = null;
@@ -48,31 +28,13 @@ public class UserRoleController {
 		return ResponseEntity.ok().body(localListOfUsers);
 	}
 
-	@GetMapping("/userActive/{userActive}")
+	@GetMapping("/user/{userActive}")
 	public ResponseEntity<UsersEntity> getActiveUsers(@PathVariable String userActive) {
 		UsersEntity localEntity = null;
 		localEntity = userService.getUserByName(userActive);
 		return ResponseEntity.ok().body(localEntity);
 	}
-
-	@PostMapping("/adduser/{firstName}/{lastName}/{email}/{password}/{address}/{phone}/{createdBy}/{roleName}")
-	public void addUsers(@PathVariable String firstName, @PathVariable String lastName,
-			@PathVariable String email, @PathVariable String password, @PathVariable String address,
-			@PathVariable String phone, @PathVariable String createdBy, @PathVariable String roleName) 
-	{
-		UsersEntity localUser = new UsersEntity();
-		//localUser.setUserId(userId);
-		localUser.setFirstName(firstName);
-		localUser.setLastName(lastName);
-		localUser.setEmail(email);
-		localUser.setPassword(password);
-		localUser.setAddress(address);
-		localUser.setMobile(phone);
-		localUser.setCreatedBy(createdBy);
-		localUser.setRoleEntity(roleService.getRoleName(roleName));
-		userService.addUsers(localUser);
-	}
-	@PostMapping("/adduserBody/{roleName}")
+	@PostMapping("/user/{roleName}")
 	public void addUserBody(@RequestBody UsersEntity localUser, @PathVariable String roleName) 
 	{
 		localUser.setRoleEntity(roleService.getRoleName(roleName));
@@ -85,11 +47,9 @@ public class UserRoleController {
 		userService.updateUserPhone(phone, firstName);
 	}
 	
-	@PostMapping("/inactive/{email}")
+	@PostMapping("/userinactive/{email}")
 	public void updateInActive(@PathVariable String email) 
 	{
 		userService.userUpdateEmail(email);
 	}
-
-
 }

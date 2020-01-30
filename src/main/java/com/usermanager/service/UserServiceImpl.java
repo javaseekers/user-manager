@@ -36,7 +36,6 @@ public class UserServiceImpl implements UsersServiceInterface {
 	@Transactional
 	public void updateUserPhone(String phone, String firstName)
 	{
-		System.out.println("test");
 		userReposp.userUpdateByName(phone, firstName);
 	}
 
