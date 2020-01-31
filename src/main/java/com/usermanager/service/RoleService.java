@@ -7,19 +7,17 @@ import org.springframework.stereotype.Service;
 
 import com.usermanager.entity.RoleEntity;
 import com.usermanager.repository.RolesRepository;
+
 @Service
-public class RoleServiceImpl implements RoleServiceInterface {
+public class RoleService {
 	@Autowired
 	RolesRepository roleRepositry;
 
-	@Override
-	public List<RoleEntity> getRoles() {	
+	public List<RoleEntity> getRoles() {
 		return roleRepositry.findAll();
 	}
 
-	@Override
-	public RoleEntity getRoleName(String roleName) 
-	{
+	public RoleEntity getRoleName(String roleName) {
 		return roleRepositry.getByRoleName(roleName);
 	}
 

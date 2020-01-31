@@ -4,52 +4,53 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.usermanager.entity.UsersEntity;
-import com.usermanager.service.RoleServiceInterface;
-import com.usermanager.service.UsersServiceInterface;
+import com.usermanager.service.RoleService;
+import com.usermanager.service.UserService;
+
 @RestController
-@RequestMapping("userapi")
+@RequestMapping("/api/v1")
 public class UserController {
 	@Autowired
-	RoleServiceInterface roleService;
+	RoleService roleService;
 	@Autowired
-	UsersServiceInterface userService;
+	UserService userService;
+
 	@GetMapping("/users")
-	public ResponseEntity<List<UsersEntity>> getUserList() {
-		List<UsersEntity> localListOfUsers = null;
-		localListOfUsers = userService.getAllUser();
+	public ResponseEntity<List<UsersEntity>> getUsers() {
+
+		List<UsersEntity> localListOfUsers = userService.getUsers();
 		return ResponseEntity.ok().body(localListOfUsers);
 	}
 
-	@GetMapping("/user/{userActive}")
-	public ResponseEntity<UsersEntity> getActiveUsers(@PathVariable String userActive) {
-		UsersEntity localEntity = null;
-		localEntity = userService.getUserByName(userActive);
+	@GetMapping("/user/active-users")
+	public ResponseEntity<UsersEntity> getActiveUsers() {
+
+		UsersEntity localEntity = userService.getActiveUsers();
 		return ResponseEntity.ok().body(localEntity);
 	}
-	@PostMapping("/user/{roleName}")
-	public void addUserBody(@RequestBody UsersEntity localUser, @PathVariable String roleName) 
-	{
-		localUser.setRoleEntity(roleService.getRoleName(roleName));
-		userService.addUsers(localUser);
+
+	@PostMapping("/users")
+	public void addUser(@RequestBody UsersEntity user) {
+		userService.addUser(user);
 	}
-	
-	@PostMapping("/updateUser/{phone}/{firstName}")
-	public void updatePhone(@PathVariable String phone,@PathVariable String firstName) 
-	{
-		userService.updateUserPhone(phone, firstName);
+
+	@PutMapping("/users/{email}")
+	public void updateUser(@RequestBody UsersEntity updatedUser, @PathVariable String email) {
+		userService.updateUser(updatedUser, email);
 	}
-	
-	@PostMapping("/userinactive/{email}")
-	public void updateInActive(@PathVariable String email) 
-	{
-		userService.userUpdateEmail(email);
+
+	@DeleteMapping("/users/{email}")
+	public void deleteUser(@PathVariable String email) {
+		userService.deleteUser(email);
 	}
 }

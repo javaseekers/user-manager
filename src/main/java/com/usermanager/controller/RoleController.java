@@ -10,26 +10,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.usermanager.entity.RoleEntity;
-import com.usermanager.service.RoleServiceInterface;
+import com.usermanager.service.RoleService;
+
 @RestController
-@RequestMapping("roleapi")
+@RequestMapping("/api/v1")
 public class RoleController {
 	@Autowired
-	RoleServiceInterface roleService;
+	RoleService roleService;
 
 	@GetMapping("/roles")
 	public ResponseEntity<List<RoleEntity>> getRoleList() {
-		List<RoleEntity> localListOfRoles = null;
 
-		localListOfRoles = roleService.getRoles();
+		List<RoleEntity> localListOfRoles = roleService.getRoles();
 
 		return ResponseEntity.ok().body(localListOfRoles);
 	}
 
 	@GetMapping("/role/{name}")
 	public ResponseEntity<RoleEntity> getRoleByName(@PathVariable String name) {
-		RoleEntity localEntity = null;
-		localEntity = roleService.getRoleName(name);
+
+		RoleEntity localEntity = roleService.getRoleName(name);
 
 		return ResponseEntity.ok().body(localEntity);
 	}
