@@ -23,7 +23,7 @@ public class UserController
 {
 	@Autowired
 	private UserServiceImpl userService;
-
+	
 	@GetMapping("users")
 	public ResponseEntity<List<UserEntity>> getUsers()
 	{
@@ -38,7 +38,7 @@ public class UserController
 	public ResponseEntity<UserEntity> getUserByEmail(
 		@PathVariable("email") String email)
 	{
-		return ResponseEntity.ok().body(userService.getUserByEmail(email));
+		return ResponseEntity.ok().body(userService.getUserByEmail(email, ""));
 	}
 
 	@PostMapping("/users")
@@ -50,8 +50,8 @@ public class UserController
 
 	}
 	@PutMapping("/users")
-	public ResponseEntity<String> updateUser(
-		@RequestBody UserDto userEntity)
+	public ResponseEntity<String> updateUser(@RequestBody UserDto userEntity)
+		throws Exception
 	{
 		userService.updateUser(userEntity);
 
