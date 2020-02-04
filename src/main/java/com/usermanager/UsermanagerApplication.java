@@ -8,8 +8,6 @@ public class UsermanagerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UsermanagerApplication.class, args);
-		
-		System.out.println("ssss");
 	}
 
 }

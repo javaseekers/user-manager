@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.usermanager.entity.RoleEntity;
 import com.usermanager.entity.UsersEntity;
 import com.usermanager.exceptions.ResourceNotFoundException;
 import com.usermanager.repository.RolesRepository;
