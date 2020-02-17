@@ -23,15 +23,15 @@ public class UserServiceImpl{
 		return userReposp.findAll();
 	}
 
-	public UsersEntity getActiveUsers(String email) throws ResourceNotFoundException {
+	public UsersEntity getByEmail(String email) throws ResourceNotFoundException {
 		
-			UsersEntity UsersEntity = userReposp.getByEmail(email);
-	     	
-	     	if(UsersEntity == null) 
+		UsersEntity usersEntity=userReposp.getUserByEmail(email);
+			
+	     	if(usersEntity == null) 
 	     	{
 				throw new ResourceNotFoundException("No User Found with this mail:"+email);
 	     	}
-	     	return UsersEntity;
+	     	return usersEntity;
 		
 	}
 
@@ -43,7 +43,7 @@ public class UserServiceImpl{
 	}
 	
 	public void updateUser(UsersEntity updatedUser, String email) throws ResourceNotFoundException {
-		UsersEntity localDbUsers = userReposp.getByEmail(email);
+		UsersEntity localDbUsers = userReposp.getUserByEmail(email);
 		if (localDbUsers == null) {
 			throw new ResourceNotFoundException("No User Found with this mail:" + email);
 		}

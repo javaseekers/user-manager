@@ -32,11 +32,9 @@ public class UserController {
 		return ResponseEntity.ok().body(localListOfUsers);
 	}
 
-	@GetMapping("/user/{userActive}")
-	public ResponseEntity<UsersEntity> getActiveUsers(@PathVariable String userActive)
-			throws ResourceNotFoundException {
-		UsersEntity localEntity = null;
-		localEntity = userService.getActiveUsers(userActive);
+	@GetMapping("/userByEmail/{email}")
+	public ResponseEntity<UsersEntity> getUserByEmail(@PathVariable String email) throws ResourceNotFoundException {
+		UsersEntity localEntity = userService.getByEmail(email);
 		return ResponseEntity.ok().body(localEntity);
 	}
 
